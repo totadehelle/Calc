@@ -7,10 +7,36 @@ using System.Windows.Controls;
 
 namespace Calc
 {
-    public static class Operator
+    public class CalculationModel
     {
-        //reads the text from the button and returns it, for ex., "9" for button 9
-        public static string AddSymbolToTextBox(Button button, string text)
+        /*public string Text { get;
+            set { }
+        }
+        void GetText*/
+
+        public event Action<string> TextChangedEvent;
+        private string _text;
+
+        private string Text
+        {
+            set
+            {
+                _text = value;
+                TextChangedEvent();
+            }
+            get { return _text; }
+        }
+
+        public void OnNumberInput(int i)
+        {
+            Text += i.ToString();
+        }
+    }
+
+    //reads the text from the button and returns it, for ex., "9" for button 9
+    public string AddFigureFrom1To9(Button button, string text)
+
+        
 
         {
             if ((text == "0" 
@@ -30,6 +56,14 @@ namespace Calc
             }
 
             return text;
+        }
+
+        public string AddZero(string text)
+        {
+        }
+
+        public string AddDot(string text)
+        {
         }
 
         public static decimal Add(decimal a, decimal b)

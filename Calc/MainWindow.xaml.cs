@@ -22,6 +22,8 @@ namespace Calc
     /// </summary>
     public partial class MainWindow : Window
     {
+        CalculationModel _calculationModel = new CalculationModel();
+
         public decimal StoredNumber;
         public decimal CurrentNumber { get { return Decimal.Parse(textBox.Text, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture); } }
         public enum Operation {NoOperation, Add, Deduct, Multiply, Divide}
@@ -49,57 +51,57 @@ namespace Calc
                 StoredNumber = 0;
             }
 
-            else textBox.Text = Operator.AddSymbolToTextBox((Button)sender, textBox.Text);
+            else textBox.Text = CalculationModel.AddFigureFrom1To9((Button)sender, textBox.Text);
         }
 
         private void button1_Click(object sender, RoutedEventArgs e)
         {
-            textBox.Text = Operator.AddSymbolToTextBox((Button)sender, textBox.Text);
+            textBox.Text = CalculationModel.AddFigureFrom1To9((Button)sender, textBox.Text);
         }
 
         private void button2_Click(object sender, RoutedEventArgs e)
         {
-            textBox.Text = Operator.AddSymbolToTextBox((Button)sender, textBox.Text);
+            textBox.Text = CalculationModel.AddFigureFrom1To9((Button)sender, textBox.Text);
         }
 
         private void button3_Click(object sender, RoutedEventArgs e)
         {
-            textBox.Text = Operator.AddSymbolToTextBox((Button)sender, textBox.Text);
+            textBox.Text = CalculationModel.AddFigureFrom1To9((Button)sender, textBox.Text);
         }
 
         private void button4_Click(object sender, RoutedEventArgs e)
         {
-            textBox.Text = Operator.AddSymbolToTextBox((Button)sender, textBox.Text);
+            textBox.Text = CalculationModel.AddFigureFrom1To9((Button)sender, textBox.Text);
         }
 
         private void button5_Click(object sender, RoutedEventArgs e)
         {
-            textBox.Text = Operator.AddSymbolToTextBox((Button)sender, textBox.Text);
+            textBox.Text = CalculationModel.AddFigureFrom1To9((Button)sender, textBox.Text);
         }
 
         private void button6_Click(object sender, RoutedEventArgs e)
         {
-            textBox.Text = Operator.AddSymbolToTextBox((Button)sender, textBox.Text);
+            textBox.Text = CalculationModel.AddFigureFrom1To9((Button)sender, textBox.Text);
         }
 
         private void button7_Click(object sender, RoutedEventArgs e)
         {
-            textBox.Text = Operator.AddSymbolToTextBox((Button)sender, textBox.Text);
+            textBox.Text = CalculationModel.AddFigureFrom1To9((Button)sender, textBox.Text);
         }
 
         private void butto8_Click(object sender, RoutedEventArgs e)
         {
-            textBox.Text = Operator.AddSymbolToTextBox((Button)sender, textBox.Text);
+            textBox.Text = CalculationModel.AddFigureFrom1To9((Button)sender, textBox.Text);
         }
 
         private void button9_Click(object sender, RoutedEventArgs e)
         {
-            textBox.Text = Operator.AddSymbolToTextBox((Button)sender, textBox.Text);
+            textBox.Text = CalculationModel.AddFigureFrom1To9((Button)sender, textBox.Text);
         }
 
         private void buttonDot_Click(object sender, RoutedEventArgs e)
         {
-            textBox.Text = Operator.AddSymbolToTextBox((Button)sender, textBox.Text);
+            textBox.Text = CalculationModel.AddFigureFrom1To9((Button)sender, textBox.Text);
         }
 
 
@@ -171,20 +173,20 @@ namespace Calc
                 switch (OperationToDo)
                 {
                     case Operation.Add:
-                        result = Operator.Add(StoredNumber, CurrentNumber);
+                        result = CalculationModel.Add(StoredNumber, CurrentNumber);
                         break;
 
                     case Operation.Deduct:
-                        result = Operator.Deduct(StoredNumber, CurrentNumber);
+                        result = CalculationModel.Deduct(StoredNumber, CurrentNumber);
                         break;
 
                     case Operation.Multiply:
-                        result = Operator.Multiplicate(StoredNumber, CurrentNumber);
+                        result = CalculationModel.Multiplicate(StoredNumber, CurrentNumber);
                         break;
 
                         // отсутствует логика для деления на ноль! result в этом случае будет 0
                     case Operation.Divide:
-                        result = Operator.Divide(StoredNumber, CurrentNumber);
+                        result = CalculationModel.Divide(StoredNumber, CurrentNumber);
                         break;
                 }
                 OperationToDo = Operation.NoOperation;

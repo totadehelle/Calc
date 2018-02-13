@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Calc;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -22,18 +23,20 @@ namespace Calc
     /// </summary>
     public partial class MainWindow : Window
     {
-        CalculationModel _calculationModel = new CalculationModel();
-
-        public decimal StoredNumber;
-        public decimal CurrentNumber { get { return Decimal.Parse(textBox.Text, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture); } }
-        public enum Operation {NoOperation, Add, Deduct, Multiply, Divide}
-        public static Operation OperationToDo = Operation.NoOperation;
-        
+        readonly CalculationModel _calculationModel;
         public MainWindow()
         {
             InitializeComponent();
-            //CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
+            _calculationModel = new CalculationModel();
         }
+
+        
+
+
+        public void ChangeTextInTextbox()
+        {
+        }
+
 
         private void textBox_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -44,64 +47,66 @@ namespace Calc
 
         private void button0_Click(object sender, RoutedEventArgs e)
         {
-            if (OperationToDo == Operation.Divide)
+            _calculationModel.AddZero();
+
+            /*if (CalculationModel.OperationToDo == CalculationModel.Operation.Divide)
             {
                 textBox.Text = "Нельзя делить на ноль";
-                OperationToDo = Operation.NoOperation;
+                CalculationModel.OperationToDo = CalculationModel.Operation.NoOperation;
                 StoredNumber = 0;
             }
 
-            else textBox.Text = CalculationModel.AddFigureFrom1To9((Button)sender, textBox.Text);
+            else textBox.Text = CalculationModel.AddFigureFrom1To9((Button)sender, textBox.Text);*/
         }
 
         private void button1_Click(object sender, RoutedEventArgs e)
         {
-            textBox.Text = CalculationModel.AddFigureFrom1To9((Button)sender, textBox.Text);
+            _calculationModel.AddFigureFrom1To9(((Button) sender).Content.ToString());
         }
 
         private void button2_Click(object sender, RoutedEventArgs e)
         {
-            textBox.Text = CalculationModel.AddFigureFrom1To9((Button)sender, textBox.Text);
+            _calculationModel.AddFigureFrom1To9(((Button)sender).Content.ToString());
         }
 
         private void button3_Click(object sender, RoutedEventArgs e)
         {
-            textBox.Text = CalculationModel.AddFigureFrom1To9((Button)sender, textBox.Text);
+            _calculationModel.AddFigureFrom1To9(((Button)sender).Content.ToString());
         }
 
         private void button4_Click(object sender, RoutedEventArgs e)
         {
-            textBox.Text = CalculationModel.AddFigureFrom1To9((Button)sender, textBox.Text);
+            _calculationModel.AddFigureFrom1To9(((Button)sender).Content.ToString());
         }
 
         private void button5_Click(object sender, RoutedEventArgs e)
         {
-            textBox.Text = CalculationModel.AddFigureFrom1To9((Button)sender, textBox.Text);
+            _calculationModel.AddFigureFrom1To9(((Button)sender).Content.ToString());
         }
 
         private void button6_Click(object sender, RoutedEventArgs e)
         {
-            textBox.Text = CalculationModel.AddFigureFrom1To9((Button)sender, textBox.Text);
+            _calculationModel.AddFigureFrom1To9(((Button)sender).Content.ToString());
         }
 
         private void button7_Click(object sender, RoutedEventArgs e)
         {
-            textBox.Text = CalculationModel.AddFigureFrom1To9((Button)sender, textBox.Text);
+            _calculationModel.AddFigureFrom1To9(((Button)sender).Content.ToString());
         }
 
         private void butto8_Click(object sender, RoutedEventArgs e)
         {
-            textBox.Text = CalculationModel.AddFigureFrom1To9((Button)sender, textBox.Text);
+            _calculationModel.AddFigureFrom1To9(((Button)sender).Content.ToString());
         }
 
         private void button9_Click(object sender, RoutedEventArgs e)
         {
-            textBox.Text = CalculationModel.AddFigureFrom1To9((Button)sender, textBox.Text);
+            _calculationModel.AddFigureFrom1To9(((Button)sender).Content.ToString());
         }
 
         private void buttonDot_Click(object sender, RoutedEventArgs e)
         {
-            textBox.Text = CalculationModel.AddFigureFrom1To9((Button)sender, textBox.Text);
+            _calculationModel.AddPoint();
         }
 
 
@@ -124,7 +129,7 @@ namespace Calc
         private void buttonC_Click(object sender, RoutedEventArgs e)
         {
             textBox.Text = "0";
-            OperationToDo = Operation.NoOperation;
+            CalculationModel.OperationToDo = CalculationModel.Operation.NoOperation;
         }
         #endregion
 
@@ -134,7 +139,7 @@ namespace Calc
             if(!textBox.Text.Contains("Н")) // "Нельзя делить на ноль"
             {
                 StoredNumber = CurrentNumber;
-                OperationToDo = Operation.Add;
+                CalculationModel.OperationToDo = CalculationModel.Operation.Add;
             }
         }
 
@@ -143,7 +148,7 @@ namespace Calc
             if (!textBox.Text.Contains("Н")) // "Нельзя делить на ноль"
             {
                 StoredNumber = CurrentNumber;
-                OperationToDo = Operation.Deduct;
+                CalculationModel.OperationToDo = CalculationModel.Operation.Deduct;
             }
         }
 
@@ -152,7 +157,7 @@ namespace Calc
             if (!textBox.Text.Contains("Н")) // "Нельзя делить на ноль"
             {
                 StoredNumber = CurrentNumber;
-                OperationToDo = Operation.Multiply;
+                CalculationModel.OperationToDo = CalculationModel.Operation.Multiply;
             }
         }
 
@@ -161,35 +166,36 @@ namespace Calc
             if (!textBox.Text.Contains("Н")) // "Нельзя делить на ноль"
             {
                 StoredNumber = CurrentNumber;
-                OperationToDo = Operation.Divide;
+                CalculationModel.OperationToDo = CalculationModel.Operation.Divide;
             }
         }
 
         private void buttonEquals_Click(object sender, RoutedEventArgs e)
         {
-            if (OperationToDo != Operation.NoOperation)
+            if (CalculationModel.OperationToDo != CalculationModel.Operation.NoOperation)
             {
                 decimal result = 0;
-                switch (OperationToDo)
+                switch (CalculationModel.OperationToDo)
                 {
-                    case Operation.Add:
+                    case CalculationModel.Operation.Add:
                         result = CalculationModel.Add(StoredNumber, CurrentNumber);
                         break;
 
-                    case Operation.Deduct:
+                    case CalculationModel.Operation.Deduct:
                         result = CalculationModel.Deduct(StoredNumber, CurrentNumber);
                         break;
 
-                    case Operation.Multiply:
+                    case CalculationModel.Operation.Multiply:
                         result = CalculationModel.Multiplicate(StoredNumber, CurrentNumber);
                         break;
 
                         // отсутствует логика для деления на ноль! result в этом случае будет 0
-                    case Operation.Divide:
+                    case CalculationModel.Operation.Divide:
                         result = CalculationModel.Divide(StoredNumber, CurrentNumber);
                         break;
                 }
-                OperationToDo = Operation.NoOperation;
+
+                CalculationModel.OperationToDo = CalculationModel.Operation.NoOperation;
                 textBox.Text = result.ToString(CultureInfo.InvariantCulture);
             }
         }

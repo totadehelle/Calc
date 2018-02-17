@@ -28,6 +28,7 @@ namespace Calc
         {
             InitializeComponent();
             _calculationModel = new CalculationModel();
+
         }
 
         
@@ -114,60 +115,35 @@ namespace Calc
         #endregion
 
         #region NON_ARITHMETIC_OPERATION_BUTTONS
-        private void buttonDelete_Click(object sender, RoutedEventArgs e)
+        private void buttonDelete_Click()
         {
-            if (textBox.Text != "0")
-            {
-                textBox.Text = textBox.Text.Remove(textBox.Text.Length - 1);
-                if (textBox.Text == "")
-                {
-                    textBox.Text = "0";
-                }
-            }
-
+            _calculationModel.RemoveLastSymbol();
         }
         private void buttonC_Click(object sender, RoutedEventArgs e)
         {
-            textBox.Text = "0";
-            CalculationModel.OperationToDo = CalculationModel.Operation.NoOperation;
+            _calculationModel.ClearAll();
         }
         #endregion
 
         #region ARITHMETIC_OPERATION_BUTTONS
         private void buttonAdd_Click(object sender, RoutedEventArgs e)
         {
-            if(!textBox.Text.Contains("Н")) // "Нельзя делить на ноль"
-            {
-                StoredNumber = CurrentNumber;
-                CalculationModel.OperationToDo = CalculationModel.Operation.Add;
-            }
+            _calculationModel.Add();
         }
 
         private void buttonDeduct_Click(object sender, RoutedEventArgs e)
         {
-            if (!textBox.Text.Contains("Н")) // "Нельзя делить на ноль"
-            {
-                StoredNumber = CurrentNumber;
-                CalculationModel.OperationToDo = CalculationModel.Operation.Deduct;
-            }
+            _calculationModel.Deduct();
         }
 
         private void buttonMuliply_Click(object sender, RoutedEventArgs e)
         {
-            if (!textBox.Text.Contains("Н")) // "Нельзя делить на ноль"
-            {
-                StoredNumber = CurrentNumber;
-                CalculationModel.OperationToDo = CalculationModel.Operation.Multiply;
-            }
+            _calculationModel.Multiplicate();
         }
 
         private void buttonDivide_Click(object sender, RoutedEventArgs e)
         {
-            if (!textBox.Text.Contains("Н")) // "Нельзя делить на ноль"
-            {
-                StoredNumber = CurrentNumber;
-                CalculationModel.OperationToDo = CalculationModel.Operation.Divide;
-            }
+            _calculationModel.Divide();
         }
 
         private void buttonEquals_Click(object sender, RoutedEventArgs e)

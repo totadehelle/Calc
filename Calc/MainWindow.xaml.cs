@@ -31,9 +31,6 @@ namespace Calc
 
         }
 
-        
-
-
         public void ChangeTextInTextbox()
         {
         }
@@ -148,32 +145,7 @@ namespace Calc
 
         private void buttonEquals_Click(object sender, RoutedEventArgs e)
         {
-            if (CalculationModel.OperationToDo != CalculationModel.Operation.NoOperation)
-            {
-                decimal result = 0;
-                switch (CalculationModel.OperationToDo)
-                {
-                    case CalculationModel.Operation.Add:
-                        result = CalculationModel.Add(StoredNumber, CurrentNumber);
-                        break;
-
-                    case CalculationModel.Operation.Deduct:
-                        result = CalculationModel.Deduct(StoredNumber, CurrentNumber);
-                        break;
-
-                    case CalculationModel.Operation.Multiply:
-                        result = CalculationModel.Multiplicate(StoredNumber, CurrentNumber);
-                        break;
-
-                        // отсутствует логика для деления на ноль! result в этом случае будет 0
-                    case CalculationModel.Operation.Divide:
-                        result = CalculationModel.Divide(StoredNumber, CurrentNumber);
-                        break;
-                }
-
-                CalculationModel.OperationToDo = CalculationModel.Operation.NoOperation;
-                textBox.Text = result.ToString(CultureInfo.InvariantCulture);
-            }
+            _calculationModel.Calculate();
         }
         #endregion
     }

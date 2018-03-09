@@ -59,7 +59,7 @@ namespace Calc
         // }
 
 
-        //reads the text from the button and returns it, for ex., "9" for button 9
+        
         public void ClearAll()
         {
             Text = "0";
@@ -80,6 +80,7 @@ namespace Calc
             }
         }
 
+        //reads the text from the button and returns it, for ex., "9" for button 9
         public void AddFigureFrom1To9(string figure)
         {
             if (Text == "0"
@@ -196,12 +197,21 @@ namespace Calc
 
                     // отсутствует логика для деления на ноль! result в этом случае будет 0
                     case Operation.Divide:
-                        result = StoredNumber / CurrentNumber;
+                        try
+                        {
+                            result = StoredNumber / CurrentNumber;
+                        }
+                        catch (DivideByZeroException)
+                        {
+                            Text = "Нельзя делить на ноль";
+                        }
+
+                        
                         break;
                 }
 
                 OperationToDo = Operation.NoOperation;
-                Text = result.ToString();
+                Text = result.ToString(CultureInfo.InvariantCulture);
             }
         }
     }

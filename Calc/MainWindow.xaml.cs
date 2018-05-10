@@ -23,18 +23,18 @@ namespace Calc
     /// </summary>
     public partial class MainWindow : Window
     {
-        readonly CalculationModel _calculationModel;
+        private readonly CalculationModel _calculationModel;
         public MainWindow()
         {
             InitializeComponent();
             _calculationModel = new CalculationModel();
-
+            _calculationModel.TextIsChangedEvent += ChangeTextInTextbox;
         }
 
-        public void ChangeTextInTextbox()
+        public void ChangeTextInTextbox(string newText)
         {
+            textBox.Text = newText;
         }
-
 
         private void textBox_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -59,7 +59,7 @@ namespace Calc
 
         private void button1_Click(object sender, RoutedEventArgs e)
         {
-            _calculationModel.AddFigureFrom1To9(((Button) sender).Content.ToString());
+            _calculationModel.AddFigureFrom1To9(((Button)sender).Content.ToString());
         }
 
         private void button2_Click(object sender, RoutedEventArgs e)
@@ -112,7 +112,7 @@ namespace Calc
         #endregion
 
         #region NON_ARITHMETIC_OPERATION_BUTTONS
-        private void buttonDelete_Click()
+        private void buttonDelete_Click(object sender, RoutedEventArgs e)
         {
             _calculationModel.RemoveLastSymbol();
         }

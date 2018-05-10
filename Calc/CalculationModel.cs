@@ -12,14 +12,14 @@ namespace Calc
     {
         public event Action<string> TextIsChangedEvent;
 
-        private string _text;
+        private string _text = "0";
 
         public string Text
         {
             set
             {
                 _text = value;
-                TextIsChangedEvent(_text);
+                TextIsChangedEvent?.Invoke(_text);
             }
             get { return _text; }
         }
@@ -34,43 +34,25 @@ namespace Calc
         }
 
         public static Operation OperationToDo = Operation.NoOperation;
-        public bool AriphmeticButtonPressedPreviously = false;
+        public bool AriphmeticButtonIsPressed = false;
 
         public decimal StoredNumber;
 
         //Добавить возможность вводить отрицательное число
         public decimal CurrentNumber => Decimal.Parse(Text,
             NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture);
-
-
-        /*private string Text
-        {
-            set
-            {
-                _text = value;
-                TextIsChangedEvent(_text);
-            }
-            get { return _text; }
-        }*/
-
-        //public void OnNumberInput(int i)
-        // {
-        //     Text += i.ToString();
-        // }
-
-
-        
+ 
         public void ClearAll()
         {
             Text = "0";
             OperationToDo = Operation.NoOperation;
-            AriphmeticButtonPressedPreviously = false;
+            AriphmeticButtonIsPressed = false;
             StoredNumber = 0;
         }
 
         public void RemoveLastSymbol()
         {
-            if (Text != "0" && !Text.Contains("Н") && !AriphmeticButtonPressedPreviously)
+            if (Text != "0" && !Text.Contains("Н") && !AriphmeticButtonIsPressed)
             {
                 Text = Text.Remove(Text.Length - 1);
                 if (Text == "")
@@ -84,51 +66,42 @@ namespace Calc
         public void AddFigureFrom1To9(string figure)
         {
             if (Text == "0"
-                || AriphmeticButtonPressedPreviously
+                || AriphmeticButtonIsPressed
                 || Text.Contains("H") // "Нельзя делить на ноль"
             )
             {
                 Text = figure;
             }
 
-            if (Text != "0"
-                && !AriphmeticButtonPressedPreviously
-                && !Text.Contains("H")) // "Нельзя делить на ноль"
-            {
-                Text += figure;
-            }
+            else Text += figure;
 
-            AriphmeticButtonPressedPreviously = false;
+            AriphmeticButtonIsPressed = false;
         }
 
         public void AddZero()
         {
             if (!Text.Contains("H")
                 && !Text.Equals("0")
-                && !AriphmeticButtonPressedPreviously)
+                && !AriphmeticButtonIsPressed)
             {
                 Text += "0";
             }
 
-            if (Text.Contains("H")
-                || AriphmeticButtonPressedPreviously)
-            {
-                Text = "0";
-            }
+            else Text = "0";
 
-            AriphmeticButtonPressedPreviously = false;
+            AriphmeticButtonIsPressed = false;
         }
 
         public void AddPoint()
         {
             if (!Text.Contains("H")
                 && !Text.Contains(".")
-                && !AriphmeticButtonPressedPreviously)
+                && !AriphmeticButtonIsPressed)
             {
                 Text += ".";
             }
 
-            AriphmeticButtonPressedPreviously = false;
+            AriphmeticButtonIsPressed = false;
         }
 
         public void Add()
@@ -160,17 +133,17 @@ namespace Calc
             if (OperationToDo == Operation.NoOperation)
             {
                 StoredNumber = CurrentNumber;
-                AriphmeticButtonPressedPreviously = true;
+                AriphmeticButtonIsPressed = true;
             }
             else
             {
-                if (!AriphmeticButtonPressedPreviously)
+                if (!AriphmeticButtonIsPressed)
                 {
                     Calculate();
                     if (!Text.Contains("Н"))
                     {
                         StoredNumber = CurrentNumber;
-                        AriphmeticButtonPressedPreviously = true;
+                        AriphmeticButtonIsPressed = true;
                     }
                 }
             }
@@ -204,6 +177,8 @@ namespace Calc
                         catch (DivideByZeroException)
                         {
                             Text = "Нельзя делить на ноль";
+                            OperationToDo = Operation.NoOperation;
+                            return;
                         }
 
                         
